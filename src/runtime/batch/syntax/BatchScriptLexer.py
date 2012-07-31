@@ -1,4 +1,4 @@
-# $ANTLR 3.1.1 /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g 2012-07-28 22:25:11
+# $ANTLR 3.1.1 /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g 2012-07-30 19:29:34
 
 import sys
 from antlr3 import *
@@ -13,13 +13,13 @@ FUNCTION=8
 EXPONENT=21
 T__29=29
 T__28=28
-OCTAL_ESC=27
+OCTAL_ESC=26
 FOR=7
 FLOAT=17
 ID=15
 EOF=-1
 IF=4
-ESC_SEQ=24
+ESC_SEQ=27
 IN=13
 THEN=5
 VAR=10
@@ -34,7 +34,7 @@ T__47=47
 T__44=44
 T__45=45
 T__48=48
-UNICODE_ESC=26
+UNICODE_ESC=24
 ELSE=6
 HEX_DIGIT=25
 INT=16
@@ -1393,29 +1393,49 @@ class BatchScriptLexer(Lexer):
             _type = STRING
             _channel = DEFAULT_CHANNEL
 
-            # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:168:9: ( '\"' ( ESC_SEQ | ~ ( '\\\\' | '\"' ) )* '\"' )
-            # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:168:13: '\"' ( ESC_SEQ | ~ ( '\\\\' | '\"' ) )* '\"'
+            # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:168:9: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' ) | UNICODE_ESC | ~ ( '\\\\' | '\"' ) )* '\"' )
+            # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:168:13: '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' ) | UNICODE_ESC | ~ ( '\\\\' | '\"' ) )* '\"'
             pass 
             self.match(34)
-            # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:168:17: ( ESC_SEQ | ~ ( '\\\\' | '\"' ) )*
+            # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:168:17: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' ) | UNICODE_ESC | ~ ( '\\\\' | '\"' ) )*
             while True: #loop15
-                alt15 = 3
+                alt15 = 4
                 LA15_0 = self.input.LA(1)
 
                 if (LA15_0 == 92) :
-                    alt15 = 1
+                    LA15_2 = self.input.LA(2)
+
+                    if (LA15_2 == 34 or LA15_2 == 39 or LA15_2 == 92 or LA15_2 == 98 or LA15_2 == 102 or LA15_2 == 110 or LA15_2 == 114 or LA15_2 == 116) :
+                        alt15 = 1
+                    elif (LA15_2 == 117) :
+                        alt15 = 2
+
+
                 elif ((0 <= LA15_0 <= 33) or (35 <= LA15_0 <= 91) or (93 <= LA15_0 <= 65535)) :
-                    alt15 = 2
+                    alt15 = 3
 
 
                 if alt15 == 1:
-                    # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:168:19: ESC_SEQ
+                    # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:168:19: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' )
                     pass 
-                    self.mESC_SEQ()
+                    self.match(92)
+                    if self.input.LA(1) == 34 or self.input.LA(1) == 39 or self.input.LA(1) == 92 or self.input.LA(1) == 98 or self.input.LA(1) == 102 or self.input.LA(1) == 110 or self.input.LA(1) == 114 or self.input.LA(1) == 116:
+                        self.input.consume()
+                    else:
+                        mse = MismatchedSetException(None, self.input)
+                        self.recover(mse)
+                        raise mse
+
 
 
                 elif alt15 == 2:
-                    # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:168:29: ~ ( '\\\\' | '\"' )
+                    # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:168:63: UNICODE_ESC
+                    pass 
+                    self.mUNICODE_ESC()
+
+
+                elif alt15 == 3:
+                    # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:168:77: ~ ( '\\\\' | '\"' )
                     pass 
                     if (0 <= self.input.LA(1) <= 33) or (35 <= self.input.LA(1) <= 91) or (93 <= self.input.LA(1) <= 65535):
                         self.input.consume()
@@ -1546,40 +1566,27 @@ class BatchScriptLexer(Lexer):
     def mESC_SEQ(self, ):
 
         try:
-            # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:178:13: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' ) | UNICODE_ESC | OCTAL_ESC )
+            # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:178:13: ( | UNICODE_ESC | OCTAL_ESC )
             alt18 = 3
             LA18_0 = self.input.LA(1)
 
             if (LA18_0 == 92) :
-                LA18 = self.input.LA(2)
-                if LA18 == 34 or LA18 == 39 or LA18 == 92 or LA18 == 98 or LA18 == 102 or LA18 == 110 or LA18 == 114 or LA18 == 116:
-                    alt18 = 1
-                elif LA18 == 117:
+                LA18_2 = self.input.LA(2)
+
+                if (LA18_2 == 117) :
                     alt18 = 2
-                elif LA18 == 48 or LA18 == 49 or LA18 == 50 or LA18 == 51 or LA18 == 52 or LA18 == 53 or LA18 == 54 or LA18 == 55:
+                elif ((48 <= LA18_2 <= 55)) :
                     alt18 = 3
                 else:
-                    nvae = NoViableAltException("", 18, 1, self.input)
+                    nvae = NoViableAltException("", 18, 2, self.input)
 
                     raise nvae
 
             else:
-                nvae = NoViableAltException("", 18, 0, self.input)
-
-                raise nvae
-
+                alt18 = 1
             if alt18 == 1:
-                # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:178:17: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' )
+                # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:179:13: 
                 pass 
-                self.match(92)
-                if self.input.LA(1) == 34 or self.input.LA(1) == 39 or self.input.LA(1) == 92 or self.input.LA(1) == 98 or self.input.LA(1) == 102 or self.input.LA(1) == 110 or self.input.LA(1) == 114 or self.input.LA(1) == 116:
-                    self.input.consume()
-                else:
-                    mse = MismatchedSetException(None, self.input)
-                    self.recover(mse)
-                    raise mse
-
-
 
             elif alt18 == 2:
                 # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:179:17: UNICODE_ESC
@@ -2015,7 +2022,7 @@ class BatchScriptLexer(Lexer):
 
     DFA20_eot = DFA.unpack(
         u"\1\uffff\7\31\1\uffff\1\51\6\uffff\1\53\1\55\1\57\3\uffff\1\62"
-        u"\1\uffff\1\63\1\uffff\1\65\2\uffff\1\66\1\67\11\31\20\uffff\3\31"
+        u"\1\uffff\1\64\1\uffff\1\65\2\uffff\1\66\1\67\11\31\20\uffff\3\31"
         u"\1\104\3\31\1\110\1\31\1\112\1\113\1\114\1\uffff\3\31\1\uffff\1"
         u"\120\3\uffff\1\31\1\122\1\31\1\uffff\1\31\1\uffff\1\125\1\31\1"
         u"\uffff\1\127\1\uffff"
@@ -2046,8 +2053,8 @@ class BatchScriptLexer(Lexer):
     DFA20_accept = DFA.unpack(
         u"\10\uffff\1\14\1\uffff\1\16\1\17\1\20\1\21\1\22\1\23\3\uffff\1"
         u"\32\1\33\1\34\1\uffff\1\37\1\uffff\1\41\1\uffff\1\45\1\46\13\uffff"
-        u"\1\24\1\15\1\25\1\36\1\27\1\26\1\31\1\30\1\34\1\44\1\35\1\40\1"
-        u"\43\1\42\1\1\1\12\14\uffff\1\4\3\uffff\1\7\1\uffff\1\2\1\10\1\3"
+        u"\1\24\1\15\1\25\1\36\1\27\1\26\1\31\1\30\1\34\1\44\1\35\1\43\1"
+        u"\40\1\42\1\1\1\12\14\uffff\1\4\3\uffff\1\7\1\uffff\1\2\1\10\1\3"
         u"\3\uffff\1\13\1\uffff\1\11\2\uffff\1\6\1\uffff\1\5"
         )
 
@@ -2085,9 +2092,9 @@ class BatchScriptLexer(Lexer):
         DFA.unpack(u""),
         DFA.unpack(u"\1\61\4\uffff\1\61"),
         DFA.unpack(u""),
-        DFA.unpack(u"\12\64"),
+        DFA.unpack(u"\12\63"),
         DFA.unpack(u""),
-        DFA.unpack(u"\1\64\1\uffff\12\32\13\uffff\1\64\37\uffff\1\64"),
+        DFA.unpack(u"\1\63\1\uffff\12\32\13\uffff\1\63\37\uffff\1\63"),
         DFA.unpack(u""),
         DFA.unpack(u""),
         DFA.unpack(u"\12\31\7\uffff\32\31\4\uffff\1\31\1\uffff\32\31"),

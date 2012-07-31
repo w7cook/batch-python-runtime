@@ -1,4 +1,4 @@
-# $ANTLR 3.1.1 /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g 2012-07-28 22:25:10
+# $ANTLR 3.1.1 /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g 2012-07-30 19:29:33
 
 import sys
 from antlr3 import *
@@ -17,13 +17,13 @@ FUNCTION=8
 EXPONENT=21
 T__29=29
 T__28=28
-OCTAL_ESC=27
+OCTAL_ESC=26
 FOR=7
 FLOAT=17
 ID=15
 EOF=-1
 IF=4
-ESC_SEQ=24
+ESC_SEQ=27
 THEN=5
 IN=13
 VAR=10
@@ -38,7 +38,7 @@ T__47=47
 T__44=44
 T__45=45
 T__48=48
-UNICODE_ESC=26
+UNICODE_ESC=24
 ELSE=6
 HEX_DIGIT=25
 INT=16
@@ -63,7 +63,7 @@ STRING=18
 # token names
 tokenNames = [
     "<invalid>", "<EOR>", "<DOWN>", "<UP>", 
-    "IF", "THEN", "ELSE", "FOR", "FUNCTION", "OUTPUT", "VAR", "TRUE", "FALSE", "IN", "DATE", "ID", "INT", "FLOAT", "STRING", "DIGIT", "ALPHA", "EXPONENT", "COMMENT", "WS", "ESC_SEQ", "HEX_DIGIT", "UNICODE_ESC", "OCTAL_ESC", "';'", "'='", "'{'", "'}'", "'('", "')'", "'||'", "'&&'", "'=='", "'!='", "'<'", "'<='", "'>'", "'>='", "'+'", "'-'", "'*'", "'/'", "'!'", "','", "'.'"
+    "IF", "THEN", "ELSE", "FOR", "FUNCTION", "OUTPUT", "VAR", "TRUE", "FALSE", "IN", "DATE", "ID", "INT", "FLOAT", "STRING", "DIGIT", "ALPHA", "EXPONENT", "COMMENT", "WS", "UNICODE_ESC", "HEX_DIGIT", "OCTAL_ESC", "ESC_SEQ", "';'", "'='", "'{'", "'}'", "'('", "')'", "'||'", "'&&'", "'=='", "'!='", "'<'", "'<='", "'>'", "'>='", "'+'", "'-'", "'*'", "'/'", "'!'", "','", "'.'"
 ]
 
 
@@ -970,7 +970,7 @@ class BatchScriptParser(Parser):
 
 
     # $ANTLR start "base"
-    # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:102:1: base returns [value] : ( '!' e= base | e= assign | IF a= expr THEN t= block ( ELSE e= block )? | x= INT | x= FLOAT | x= STRING | DATE '(' d= STRING ')' | x= TRUE | x= FALSE | '(' e= block ')' );
+    # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:102:1: base returns [value] : ( '!' e= base | e= assign | IF '(' a= expr ')' t= block ( ELSE e= block )? | x= INT | x= FLOAT | x= STRING | DATE '(' d= STRING ')' | x= TRUE | x= FALSE | '(' e= expr ')' );
     def base(self, ):
 
         value = None
@@ -986,7 +986,7 @@ class BatchScriptParser(Parser):
 
         try:
             try:
-                # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:103:5: ( '!' e= base | e= assign | IF a= expr THEN t= block ( ELSE e= block )? | x= INT | x= FLOAT | x= STRING | DATE '(' d= STRING ')' | x= TRUE | x= FALSE | '(' e= block ')' )
+                # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:103:5: ( '!' e= base | e= assign | IF '(' a= expr ')' t= block ( ELSE e= block )? | x= INT | x= FLOAT | x= STRING | DATE '(' d= STRING ')' | x= TRUE | x= FALSE | '(' e= expr ')' )
                 alt15 = 10
                 LA15 = self.input.LA(1)
                 if LA15 == 46:
@@ -1040,15 +1040,16 @@ class BatchScriptParser(Parser):
 
 
                 elif alt15 == 3:
-                    # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:105:9: IF a= expr THEN t= block ( ELSE e= block )?
+                    # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:105:9: IF '(' a= expr ')' t= block ( ELSE e= block )?
                     pass 
                     self.match(self.input, IF, self.FOLLOW_IF_in_base1167)
-                    self._state.following.append(self.FOLLOW_expr_in_base1171)
+                    self.match(self.input, 32, self.FOLLOW_32_in_base1169)
+                    self._state.following.append(self.FOLLOW_expr_in_base1173)
                     a = self.expr()
 
                     self._state.following.pop()
-                    self.match(self.input, THEN, self.FOLLOW_THEN_in_base1173)
-                    self._state.following.append(self.FOLLOW_block_in_base1177)
+                    self.match(self.input, 33, self.FOLLOW_33_in_base1175)
+                    self._state.following.append(self.FOLLOW_block_in_base1179)
                     t = self.block()
 
                     self._state.following.pop()
@@ -1064,8 +1065,8 @@ class BatchScriptParser(Parser):
                     if alt14 == 1:
                         # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:106:10: ELSE e= block
                         pass 
-                        self.match(self.input, ELSE, self.FOLLOW_ELSE_in_base1191)
-                        self._state.following.append(self.FOLLOW_block_in_base1195)
+                        self.match(self.input, ELSE, self.FOLLOW_ELSE_in_base1193)
+                        self._state.following.append(self.FOLLOW_block_in_base1197)
                         e = self.block()
 
                         self._state.following.pop()
@@ -1080,7 +1081,7 @@ class BatchScriptParser(Parser):
                 elif alt15 == 4:
                     # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:107:9: x= INT
                     pass 
-                    x=self.match(self.input, INT, self.FOLLOW_INT_in_base1219)
+                    x=self.match(self.input, INT, self.FOLLOW_INT_in_base1221)
                     #action start
                     value = Data(int(x.getText()))
                     #action end
@@ -1089,7 +1090,7 @@ class BatchScriptParser(Parser):
                 elif alt15 == 5:
                     # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:108:9: x= FLOAT
                     pass 
-                    x=self.match(self.input, FLOAT, self.FOLLOW_FLOAT_in_base1251)
+                    x=self.match(self.input, FLOAT, self.FOLLOW_FLOAT_in_base1253)
                     #action start
                     value = Data(float(x.getText()))
                     #action end
@@ -1098,7 +1099,7 @@ class BatchScriptParser(Parser):
                 elif alt15 == 6:
                     # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:109:9: x= STRING
                     pass 
-                    x=self.match(self.input, STRING, self.FOLLOW_STRING_in_base1281)
+                    x=self.match(self.input, STRING, self.FOLLOW_STRING_in_base1283)
                     #action start
                     value = Data(x.getText()[1:-1].replace("\\\"","\"").replace("\\\\","\\"))
                     #action end
@@ -1107,10 +1108,10 @@ class BatchScriptParser(Parser):
                 elif alt15 == 7:
                     # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:110:9: DATE '(' d= STRING ')'
                     pass 
-                    self.match(self.input, DATE, self.FOLLOW_DATE_in_base1308)
-                    self.match(self.input, 32, self.FOLLOW_32_in_base1310)
-                    d=self.match(self.input, STRING, self.FOLLOW_STRING_in_base1314)
-                    self.match(self.input, 33, self.FOLLOW_33_in_base1316)
+                    self.match(self.input, DATE, self.FOLLOW_DATE_in_base1310)
+                    self.match(self.input, 32, self.FOLLOW_32_in_base1312)
+                    d=self.match(self.input, STRING, self.FOLLOW_STRING_in_base1316)
+                    self.match(self.input, 33, self.FOLLOW_33_in_base1318)
                     #action start
                     value = Data(d.getText())
                     #action end
@@ -1119,7 +1120,7 @@ class BatchScriptParser(Parser):
                 elif alt15 == 8:
                     # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:111:9: x= TRUE
                     pass 
-                    x=self.match(self.input, TRUE, self.FOLLOW_TRUE_in_base1330)
+                    x=self.match(self.input, TRUE, self.FOLLOW_TRUE_in_base1332)
                     #action start
                     value = Data(True)
                     #action end
@@ -1128,21 +1129,21 @@ class BatchScriptParser(Parser):
                 elif alt15 == 9:
                     # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:112:9: x= FALSE
                     pass 
-                    x=self.match(self.input, FALSE, self.FOLLOW_FALSE_in_base1361)
+                    x=self.match(self.input, FALSE, self.FOLLOW_FALSE_in_base1363)
                     #action start
                     value = Data(FALSE)
                     #action end
 
 
                 elif alt15 == 10:
-                    # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:113:9: '(' e= block ')'
+                    # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:113:9: '(' e= expr ')'
                     pass 
-                    self.match(self.input, 32, self.FOLLOW_32_in_base1389)
-                    self._state.following.append(self.FOLLOW_block_in_base1393)
-                    e = self.block()
+                    self.match(self.input, 32, self.FOLLOW_32_in_base1391)
+                    self._state.following.append(self.FOLLOW_expr_in_base1395)
+                    e = self.expr()
 
                     self._state.following.pop()
-                    self.match(self.input, 33, self.FOLLOW_33_in_base1395)
+                    self.match(self.input, 33, self.FOLLOW_33_in_base1397)
                     #action start
                     value = e
                     #action end
@@ -1177,7 +1178,7 @@ class BatchScriptParser(Parser):
                 # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:117:5: (a= prim ( '=' b= expr )? )
                 # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:117:9: a= prim ( '=' b= expr )?
                 pass 
-                self._state.following.append(self.FOLLOW_prim_in_assign1430)
+                self._state.following.append(self.FOLLOW_prim_in_assign1432)
                 a = self.prim()
 
                 self._state.following.pop()
@@ -1193,8 +1194,8 @@ class BatchScriptParser(Parser):
                 if alt16 == 1:
                     # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:118:11: '=' b= expr
                     pass 
-                    self.match(self.input, 29, self.FOLLOW_29_in_assign1461)
-                    self._state.following.append(self.FOLLOW_expr_in_assign1465)
+                    self.match(self.input, 29, self.FOLLOW_29_in_assign1463)
+                    self._state.following.append(self.FOLLOW_expr_in_assign1467)
                     b = self.expr()
 
                     self._state.following.pop()
@@ -1250,15 +1251,15 @@ class BatchScriptParser(Parser):
                 if alt17 == 1:
                     # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:123:9: OUTPUT '(' b= STRING ',' e= expr ')'
                     pass 
-                    self.match(self.input, OUTPUT, self.FOLLOW_OUTPUT_in_prim1504)
-                    self.match(self.input, 32, self.FOLLOW_32_in_prim1506)
-                    b=self.match(self.input, STRING, self.FOLLOW_STRING_in_prim1510)
-                    self.match(self.input, 47, self.FOLLOW_47_in_prim1512)
-                    self._state.following.append(self.FOLLOW_expr_in_prim1516)
+                    self.match(self.input, OUTPUT, self.FOLLOW_OUTPUT_in_prim1506)
+                    self.match(self.input, 32, self.FOLLOW_32_in_prim1508)
+                    b=self.match(self.input, STRING, self.FOLLOW_STRING_in_prim1512)
+                    self.match(self.input, 47, self.FOLLOW_47_in_prim1514)
+                    self._state.following.append(self.FOLLOW_expr_in_prim1518)
                     e = self.expr()
 
                     self._state.following.pop()
-                    self.match(self.input, 33, self.FOLLOW_33_in_prim1518)
+                    self.match(self.input, 33, self.FOLLOW_33_in_prim1520)
                     #action start
                     value = Out(b.getText()[1:-1], e)
                     #action end
@@ -1267,11 +1268,11 @@ class BatchScriptParser(Parser):
                 elif alt17 == 2:
                     # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:124:9: b= ID r= access[value]
                     pass 
-                    b=self.match(self.input, ID, self.FOLLOW_ID_in_prim1533)
+                    b=self.match(self.input, ID, self.FOLLOW_ID_in_prim1535)
                     #action start
                     value = Var(b.getText())
                     #action end
-                    self._state.following.append(self.FOLLOW_access_in_prim1560)
+                    self._state.following.append(self.FOLLOW_access_in_prim1562)
                     r = self.access(value)
 
                     self._state.following.pop()
@@ -1313,7 +1314,7 @@ class BatchScriptParser(Parser):
 
                 if (LA20_0 == 48) :
                     alt20 = 1
-                elif (LA20_0 == EOF or LA20_0 == THEN or (28 <= LA20_0 <= 29) or LA20_0 == 31 or (33 <= LA20_0 <= 45) or LA20_0 == 47) :
+                elif (LA20_0 == EOF or (28 <= LA20_0 <= 29) or LA20_0 == 31 or (33 <= LA20_0 <= 45) or LA20_0 == 47) :
                     alt20 = 2
                 else:
                     nvae = NoViableAltException("", 20, 0, self.input)
@@ -1323,8 +1324,8 @@ class BatchScriptParser(Parser):
                 if alt20 == 1:
                     # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:129:9: '.' x= ID ( '(' (a= args )? ')' )? r= access[value]
                     pass 
-                    self.match(self.input, 48, self.FOLLOW_48_in_access1589)
-                    x=self.match(self.input, ID, self.FOLLOW_ID_in_access1593)
+                    self.match(self.input, 48, self.FOLLOW_48_in_access1591)
+                    x=self.match(self.input, ID, self.FOLLOW_ID_in_access1595)
                     #action start
                     value = Prop(base, x.getText())
                     #action end
@@ -1337,7 +1338,7 @@ class BatchScriptParser(Parser):
                     if alt19 == 1:
                         # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:130:11: '(' (a= args )? ')'
                         pass 
-                        self.match(self.input, 32, self.FOLLOW_32_in_access1614)
+                        self.match(self.input, 32, self.FOLLOW_32_in_access1616)
                         # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:130:16: (a= args )?
                         alt18 = 2
                         LA18_0 = self.input.LA(1)
@@ -1347,7 +1348,7 @@ class BatchScriptParser(Parser):
                         if alt18 == 1:
                             # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:130:16: a= args
                             pass 
-                            self._state.following.append(self.FOLLOW_args_in_access1618)
+                            self._state.following.append(self.FOLLOW_args_in_access1620)
                             a = self.args()
 
                             self._state.following.pop()
@@ -1357,11 +1358,11 @@ class BatchScriptParser(Parser):
                         #action start
                         value = Call(base, x.getText(), a)
                         #action end
-                        self.match(self.input, 33, self.FOLLOW_33_in_access1637)
+                        self.match(self.input, 33, self.FOLLOW_33_in_access1639)
 
 
 
-                    self._state.following.append(self.FOLLOW_access_in_access1660)
+                    self._state.following.append(self.FOLLOW_access_in_access1662)
                     r = self.access(value)
 
                     self._state.following.pop()
@@ -1410,7 +1411,7 @@ class BatchScriptParser(Parser):
                 #action start
                 arglist = []
                 #action end
-                self._state.following.append(self.FOLLOW_expr_in_args1724)
+                self._state.following.append(self.FOLLOW_expr_in_args1726)
                 a = self.expr()
 
                 self._state.following.pop()
@@ -1426,8 +1427,8 @@ class BatchScriptParser(Parser):
                 if alt21 == 1:
                     # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:140:11: ',' rest= args
                     pass 
-                    self.match(self.input, 47, self.FOLLOW_47_in_args1747)
-                    self._state.following.append(self.FOLLOW_args_in_args1751)
+                    self.match(self.input, 47, self.FOLLOW_47_in_args1749)
+                    self._state.following.append(self.FOLLOW_args_in_args1753)
                     rest = self.args()
 
                     self._state.following.pop()
@@ -1468,11 +1469,11 @@ class BatchScriptParser(Parser):
                 # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:145:5: (y= INT ',' m= INT ',' d= INT )
                 # /Users/wcook/workspace/batch-python-runtime/src/runtime/batch/syntax/BatchScript.g:145:9: y= INT ',' m= INT ',' d= INT
                 pass 
-                y=self.match(self.input, INT, self.FOLLOW_INT_in_dateargs1789)
-                self.match(self.input, 47, self.FOLLOW_47_in_dateargs1791)
-                m=self.match(self.input, INT, self.FOLLOW_INT_in_dateargs1795)
-                self.match(self.input, 47, self.FOLLOW_47_in_dateargs1797)
-                d=self.match(self.input, INT, self.FOLLOW_INT_in_dateargs1801)
+                y=self.match(self.input, INT, self.FOLLOW_INT_in_dateargs1791)
+                self.match(self.input, 47, self.FOLLOW_47_in_dateargs1793)
+                m=self.match(self.input, INT, self.FOLLOW_INT_in_dateargs1797)
+                self.match(self.input, 47, self.FOLLOW_47_in_dateargs1799)
+                d=self.match(self.input, INT, self.FOLLOW_INT_in_dateargs1803)
                 #action start
                 value = date(int(y.getText()), int(m.getText()), int(d.getText()))
                 #action end
@@ -1553,49 +1554,50 @@ class BatchScriptParser(Parser):
     FOLLOW_46_in_base1120 = frozenset([4, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 32, 46])
     FOLLOW_base_in_base1124 = frozenset([1])
     FOLLOW_assign_in_base1140 = frozenset([1])
-    FOLLOW_IF_in_base1167 = frozenset([4, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 32, 46])
-    FOLLOW_expr_in_base1171 = frozenset([5])
-    FOLLOW_THEN_in_base1173 = frozenset([30])
-    FOLLOW_block_in_base1177 = frozenset([1, 6])
-    FOLLOW_ELSE_in_base1191 = frozenset([30])
-    FOLLOW_block_in_base1195 = frozenset([1])
-    FOLLOW_INT_in_base1219 = frozenset([1])
-    FOLLOW_FLOAT_in_base1251 = frozenset([1])
-    FOLLOW_STRING_in_base1281 = frozenset([1])
-    FOLLOW_DATE_in_base1308 = frozenset([32])
-    FOLLOW_32_in_base1310 = frozenset([18])
-    FOLLOW_STRING_in_base1314 = frozenset([33])
-    FOLLOW_33_in_base1316 = frozenset([1])
-    FOLLOW_TRUE_in_base1330 = frozenset([1])
-    FOLLOW_FALSE_in_base1361 = frozenset([1])
-    FOLLOW_32_in_base1389 = frozenset([30])
-    FOLLOW_block_in_base1393 = frozenset([33])
-    FOLLOW_33_in_base1395 = frozenset([1])
-    FOLLOW_prim_in_assign1430 = frozenset([1, 29])
-    FOLLOW_29_in_assign1461 = frozenset([4, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 32, 46])
-    FOLLOW_expr_in_assign1465 = frozenset([1])
-    FOLLOW_OUTPUT_in_prim1504 = frozenset([32])
-    FOLLOW_32_in_prim1506 = frozenset([18])
-    FOLLOW_STRING_in_prim1510 = frozenset([47])
-    FOLLOW_47_in_prim1512 = frozenset([4, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 32, 46])
-    FOLLOW_expr_in_prim1516 = frozenset([33])
-    FOLLOW_33_in_prim1518 = frozenset([1])
-    FOLLOW_ID_in_prim1533 = frozenset([48])
-    FOLLOW_access_in_prim1560 = frozenset([1])
-    FOLLOW_48_in_access1589 = frozenset([15])
-    FOLLOW_ID_in_access1593 = frozenset([32, 48])
-    FOLLOW_32_in_access1614 = frozenset([4, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 32, 33, 46])
-    FOLLOW_args_in_access1618 = frozenset([33])
-    FOLLOW_33_in_access1637 = frozenset([48])
-    FOLLOW_access_in_access1660 = frozenset([1])
-    FOLLOW_expr_in_args1724 = frozenset([1, 47])
-    FOLLOW_47_in_args1747 = frozenset([4, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 32, 46])
-    FOLLOW_args_in_args1751 = frozenset([1])
-    FOLLOW_INT_in_dateargs1789 = frozenset([47])
-    FOLLOW_47_in_dateargs1791 = frozenset([16])
-    FOLLOW_INT_in_dateargs1795 = frozenset([47])
-    FOLLOW_47_in_dateargs1797 = frozenset([16])
-    FOLLOW_INT_in_dateargs1801 = frozenset([1])
+    FOLLOW_IF_in_base1167 = frozenset([32])
+    FOLLOW_32_in_base1169 = frozenset([4, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 32, 46])
+    FOLLOW_expr_in_base1173 = frozenset([33])
+    FOLLOW_33_in_base1175 = frozenset([30])
+    FOLLOW_block_in_base1179 = frozenset([1, 6])
+    FOLLOW_ELSE_in_base1193 = frozenset([30])
+    FOLLOW_block_in_base1197 = frozenset([1])
+    FOLLOW_INT_in_base1221 = frozenset([1])
+    FOLLOW_FLOAT_in_base1253 = frozenset([1])
+    FOLLOW_STRING_in_base1283 = frozenset([1])
+    FOLLOW_DATE_in_base1310 = frozenset([32])
+    FOLLOW_32_in_base1312 = frozenset([18])
+    FOLLOW_STRING_in_base1316 = frozenset([33])
+    FOLLOW_33_in_base1318 = frozenset([1])
+    FOLLOW_TRUE_in_base1332 = frozenset([1])
+    FOLLOW_FALSE_in_base1363 = frozenset([1])
+    FOLLOW_32_in_base1391 = frozenset([4, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 32, 46])
+    FOLLOW_expr_in_base1395 = frozenset([33])
+    FOLLOW_33_in_base1397 = frozenset([1])
+    FOLLOW_prim_in_assign1432 = frozenset([1, 29])
+    FOLLOW_29_in_assign1463 = frozenset([4, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 32, 46])
+    FOLLOW_expr_in_assign1467 = frozenset([1])
+    FOLLOW_OUTPUT_in_prim1506 = frozenset([32])
+    FOLLOW_32_in_prim1508 = frozenset([18])
+    FOLLOW_STRING_in_prim1512 = frozenset([47])
+    FOLLOW_47_in_prim1514 = frozenset([4, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 32, 46])
+    FOLLOW_expr_in_prim1518 = frozenset([33])
+    FOLLOW_33_in_prim1520 = frozenset([1])
+    FOLLOW_ID_in_prim1535 = frozenset([48])
+    FOLLOW_access_in_prim1562 = frozenset([1])
+    FOLLOW_48_in_access1591 = frozenset([15])
+    FOLLOW_ID_in_access1595 = frozenset([32, 48])
+    FOLLOW_32_in_access1616 = frozenset([4, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 32, 33, 46])
+    FOLLOW_args_in_access1620 = frozenset([33])
+    FOLLOW_33_in_access1639 = frozenset([48])
+    FOLLOW_access_in_access1662 = frozenset([1])
+    FOLLOW_expr_in_args1726 = frozenset([1, 47])
+    FOLLOW_47_in_args1749 = frozenset([4, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 32, 46])
+    FOLLOW_args_in_args1753 = frozenset([1])
+    FOLLOW_INT_in_dateargs1791 = frozenset([47])
+    FOLLOW_47_in_dateargs1793 = frozenset([16])
+    FOLLOW_INT_in_dateargs1797 = frozenset([47])
+    FOLLOW_47_in_dateargs1799 = frozenset([16])
+    FOLLOW_INT_in_dateargs1803 = frozenset([1])
 
 
 

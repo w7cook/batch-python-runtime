@@ -102,7 +102,7 @@ mulop returns [op]
 base returns [value]
     :   '!' e=base   {$value=Not($e.value);}
     |   e=assign                {$value=$e.value;}
-    |   IF a=expr THEN t=block  {$value=If($a.value,$t.value,None);}
+    |   IF '(' a=expr ')' t=block  {$value=If($a.value,$t.value,None);}
         (ELSE e=block)?         {$value=If($a.value,$t.value,$e.value);}
     |   x=INT                   {$value=Data(int($x.getText()));}
     |   x=FLOAT                 {$value=Data(float($x.getText()));}
