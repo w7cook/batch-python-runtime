@@ -203,8 +203,9 @@ class Call :
     
     def interp(self, out, env) :
         real_args = []
-        for a in self.args :
-            real_args.append(a.interp(out, env))
+        if (self.args) :
+            for a in self.args :
+                real_args.append(a.interp(out, env))
         return getattr(self.base.interp(out, env), self.func)(*real_args)
     
     def __str__(self) :

@@ -2,9 +2,10 @@ class BasicObj :
 
     def __init__(self, inc) :
         self.inc = inc
+        self.y = 3
     
-    def foo(self, x) :
-        return self.inc + x
+    def foo(self) :
+        return self.inc
 
     def getImage(self, name) :
         img = open("tcp/" + name + '.jpg', "rb")
@@ -18,4 +19,14 @@ class BasicObj :
             img.close()
         
         return buff
+    
+    def call(self) :
+        print "Call"
+    
+    def hello(self) :
+        print "Hello"
+    
+    def bye(self) :
+        print "Bye"
+
 
